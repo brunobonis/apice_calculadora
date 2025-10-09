@@ -1,3 +1,4 @@
+import os
 from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__, static_folder='static')
@@ -11,7 +12,7 @@ SISTEMAS_SOLARES = {
         'preco_parcelado': '21x de R$ 415,81',
         'modulos': 4,
         'inversor': 'Micro inversor',
-        'descricao': 'Sistema Fotovoltaico'
+        'descricao': 'Sistema Compacto'
     },
     '450': {
         'potencia': 3.72,
@@ -20,7 +21,7 @@ SISTEMAS_SOLARES = {
         'preco_parcelado': '21x de R$ 579,79',
         'modulos': 6,
         'inversor': '3kW',
-        'descricao': 'Sistema Fotovoltaico'
+        'descricao': 'Sistema Residencial'
     },
     '600': {
         'potencia': 4.96,
@@ -29,7 +30,7 @@ SISTEMAS_SOLARES = {
         'preco_parcelado': '21x de R$ 661,78',
         'modulos': 8,
         'inversor': '3kW',
-        'descricao': 'Sistema Fotovoltaico'
+        'descricao': 'Sistema Familiar'
     },
     '750': {
         'potencia': 6.20,
@@ -38,7 +39,7 @@ SISTEMAS_SOLARES = {
         'preco_parcelado': '21x de R$ 855,05',
         'modulos': 10,
         'inversor': '4kW',
-        'descricao': 'Sistema Fotovoltaico'
+        'descricao': 'Sistema Premium'
     },
     '900': {
         'potencia': 7.44,
@@ -47,7 +48,7 @@ SISTEMAS_SOLARES = {
         'preco_parcelado': '21x de R$ 942,89',
         'modulos': 12,
         'inversor': '5kW',
-        'descricao': 'Sistema Fotovoltaico'
+        'descricao': 'Sistema Max'
     },
     '1200': {
         'potencia': 9.92,
@@ -56,7 +57,7 @@ SISTEMAS_SOLARES = {
         'preco_parcelado': '21x de R$ 1.317,71',
         'modulos': 16,
         'inversor': '7.5K',
-        'descricao': 'Sistema Fotovoltaico'
+        'descricao': 'Sistema Avançado'
     },
     '1500': {
         'potencia': 13.64,
@@ -65,7 +66,7 @@ SISTEMAS_SOLARES = {
         'preco_parcelado': '21x de R$ 1.698,15',
         'modulos': 22,
         'inversor': '10K',
-        'descricao': 'Sistema Fotovoltaico'
+        'descricao': 'Sistema Premium Max'
     }
 }
 
@@ -162,10 +163,13 @@ def encontrar_sistema_ideal(consumo_kwh):
     return SISTEMAS_SOLARES['1500']
 
 if __name__ == '__main__':
+    # Obter porta do ambiente (necessário para hospedagem)
+    port = int(os.environ.get('PORT', 5000))
+    
     print("🌞 Calculadora Solar Ápice Solar - Black Friday")
     print("💰 Sistemas com preços reais:")
     for nome, sistema in SISTEMAS_SOLARES.items():
         print(f"   {sistema['geracao_mensal']} kWh - R$ {sistema['preco_a_vista']:,} à vista - {sistema['potencia']} kWp")
     
-    print(f"\n🚀 Servidor iniciando... Acesse: http://localhost:5000")
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    print(f"\n🚀 Servidor iniciando...")
+    app.run(debug=False, host='0.0.0.0', port=port)  # IMPORTANTE: debug=False
