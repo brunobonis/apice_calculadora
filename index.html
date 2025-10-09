@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Solar - Ápice Solar Black Friday</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: #000000; /* FUNDO PRETO */
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            padding: 20px;
+        }
+
+        .logo-container {
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            max-width: 200px; /* AJUSTE O TAMANHO DA LOGO AQUI */
+            height: auto;
+            display: block;
+            margin: 0 auto 15px auto;
+        }
+        
+        .black-friday-badge {
+            background: linear-gradient(45deg, #ff6b00, #ff0000);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            display: inline-block;
+            margin-bottom: 15px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            color: white;
+        }
+        
+        .calculator-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 1.1rem;
+        }
+        
+        input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 18px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #2a5298;
+        }
+        
+        .btn-calculate {
+            background: linear-gradient(45deg, #ff6b00, #ff0000);
+            color: white;
+            border: none;
+            padding: 18px 30px;
+            border-radius: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s;
+            margin-top: 10px;
+        }
+        
+        .btn-calculate:hover {
+            transform: translateY(-3px);
+        }
+        
+        .results {
+            display: none;
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 3px solid #ff6b00;
+        }
+        
+        .sistema-info {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border-left: 5px solid #2a5298;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .preco-destaque {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 15px 0;
+        }
+        
+        .preco-a-vista {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .preco-parcelado {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .beneficios-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            border: 2px solid #e1e5e9;
+        }
+
+        .beneficio-item {
+            text-align: center;
+            padding: 15px;
+        }
+
+        .beneficio-icone {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .beneficio-texto {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .result-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 2px solid #e1e5e9;
+        }
+        
+        .result-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #28a745;
+            margin: 10px 0;
+        }
+        
+        .badge {
+            background: #28a745;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .whatsapp-btn {
+            background: #25D366;
+            color: white;
+            border: none;
+            padding: 18px 30px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: transform 0.2s;
+            width: 100%;
+            justify-content: center;
+        }
+        
+        .whatsapp-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .economia-total {
+            background: linear-gradient(45deg, #ff6b00, #ff0000);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 25px 0;
+        }
+        
+        .economia-total-valor {
+            font-size: 2.0rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .projecao-table {
+            width: 100%;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        
+        .projecao-table th {
+            background: #2a5298;
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+        
+        .projecao-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e1e5e9;
+            font-size: 12px;
+            text-align: center;
+        }
+        
+        .projecao-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .projeto-personalizado {
+            background: linear-gradient(45deg, #ff6b00, #ff0000);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 25px 0;
+        }
+
+        .projeto-personalizado h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .projeto-personalizado p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .calculator-card {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .result-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .preco-a-vista {
+                font-size: 1.5rem;
+            }
+
+            .beneficios-container {
+                grid-template-columns: 1fr;
+            }
+
+            .logo {
+                max-width: 150px; /* Logo menor em mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo-container">
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="Ápice Solar" class="logo" onerror="this.style.display='none'">
+            </div>
+            
+            <div class="black-friday-badge">
+                🚀 ESQUENTA BLACK FRIDAY 🚀
+            </div>
+            <h1>Calculadora Solar</h1>
+            <p style="color: #ccc;">Descubra quanto você vai pagar e pode economizar com nossos sistemas!</p>
+        </div>
+        
+        <div class="calculator-card">
+            <form id="solarForm">
+                <div class="form-group">
+                    <label for="conta_mensal">💡 Valor médio da sua conta de luz (R$):</label>
+                    <input type="number" id="conta_mensal" name="conta_mensal" min="150" max="5000" step="0.01" required 
+                           placeholder="Ex: 550.00">
+                    <small style="color: #666; font-size: 0.9rem;">* Cálculo médio baseado no valor da conta.</small>
+                </div>
+                
+                <button type="submit" class="btn-calculate">
+                    Calcular meu Sistema<br> e Minha Economia
+                </button>
+            </form>
+            
+            <div class="loading" id="loading">
+                <p>⏳ Calculando sua economia com os melhores preços...</p>
+            </div>
+            
+            <div class="results" id="results">
+                <div id="resultado-normal">
+                    <h2 style="text-align: center; margin-bottom: 25px; color: #2a5298;">
+                        Sistema Ideal para Você
+                    </h2>
+                    
+                    <div class="sistema-info" id="sistema-info">
+                        <!-- Informações do sistema serão preenchidas aqui -->
+                    </div>
+
+                    <div class="preco-destaque">
+                        <div class="preco-a-vista" id="preco-a-vista">R$ 0,00</div>
+                        <div class="preco-parcelado" id="preco-parcelado">ou 21x de R$ 0,00</div>
+                        <div style="margin-top: 10px;">
+                            <span class="badge">🎁 1 ANO DE SEGURO GRÁTIS</span><br>
+                            <span class="badge">🚚 FRETE GRÁTIS</span><br>
+                            <span class="badge">✅ HOMOLOGADO</span><br>
+                        </div>
+                    </div>
+
+                  
+                    
+                    <div class="result-grid">
+                        <div class="result-card">
+                            <div>Sua Conta Atual</div>
+                            <div class="result-value" id="conta-atual">R$ 0</div>
+                            <div>por mês</div>
+                        </div>
+                        
+                        <div class="result-card">
+                            <div>Sua Nova Conta (em média)</div>
+                            <div class="result-value" id="conta-nova">R$ 100</div>
+                            <div>pagamento mínimo</div>
+                        </div>
+                        
+                        <div class="result-card">
+                            <div>Economia Mensal (em média)</div>
+                            <div class="result-value" id="economia-mensal">R$ 0</div>
+                            <div></div>
+                        </div>
+                        
+                        <div class="result-card">
+                            <div>Payback (em média)</div>
+                            <div class="result-value" id="payback">0 anos</div>
+                            <div>retorno do investimento</div>
+                        </div>
+                    </div>
+
+                    <div class="economia-total">
+                        <div>💰 ECONOMIA EM 25 ANOS</div>
+                        <div class="economia-total-valor" id="economia-total">R$ 0.000,00</div>
+                        <div>Valor que você deixará de pagar para a concessionária</div>
+                    </div>
+                    
+                    <div style="text-align: center;">
+                     <h3 style="margin: 30px 0 13px 0; color: #2a5298;">
+                      PROJEÇÃO DE ECONOMIA<br>PARA OS PRÓXIMOS 25 ANOS
+                     </h3>
+                    </div>
+
+                    <div class="projecao-table">
+                        <table style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>Ano</th>
+                                    <th>Economia no Ano</th>
+                                    <th>Economia Acumulada</th>
+                                </tr>
+                            </thead>
+                            <tbody id="projecao-body">
+                                <!-- Dados da projeção serão preenchidos aqui -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div id="resultado-projeto-personalizado" style="display: none;">
+                    <div class="projeto-personalizado">
+                        <h3>📈 PROJETO PERSONALIZADO</h3>
+                        <p>Seu consumo estimado é superior a 1500 kWh/mês</p>
+                        <p>Para sistemas maiores, precisamos fazer um estudo personalizado da sua necessidade</p>
+                        <p>Clique no botão abaixo para falar com nossos especialistas</p>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="whatsapp-btn" onclick="abrirWhatsApp()">
+                        💬 QUERO GARANTIR MEU SISTEMA COM DESCONTO!
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function formatarMoeda(valor) {
+            return 'R$ ' + valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        document.getElementById('solarForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                conta_mensal: parseFloat(document.getElementById('conta_mensal').value)
+            };
+            
+            // Mostrar loading
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('results').style.display = 'none';
+            
+            // Fazer requisição para o backend
+            fetch('/calcular', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('loading').style.display = 'none';
+                
+                if (data.success) {
+                    mostrarResultados(data);
+                } else {
+                    alert('Erro no cálculo: ' + data.error);
+                }
+            })
+            .catch(error => {
+                document.getElementById('loading').style.display = 'none';
+                alert('Erro de conexão: ' + error);
+            });
+        });
+        
+        function mostrarResultados(data) {
+            const resultados = data.resultados;
+            const sistema = data.sistema_ideal;
+            const precisaProjetoPersonalizado = data.precisa_projeto_personalizado;
+            
+            // Mostrar/ocultar seções baseado no tipo de resultado
+            if (precisaProjetoPersonalizado) {
+                document.getElementById('resultado-normal').style.display = 'none';
+                document.getElementById('resultado-projeto-personalizado').style.display = 'block';
+            } else {
+                document.getElementById('resultado-normal').style.display = 'block';
+                document.getElementById('resultado-projeto-personalizado').style.display = 'none';
+                
+                // Atualizar valores principais
+                document.getElementById('conta-atual').textContent = formatarMoeda(resultados.conta_atual);
+                document.getElementById('conta-nova').textContent = formatarMoeda(resultados.conta_pos_instalacao);
+                document.getElementById('economia-mensal').textContent = formatarMoeda(resultados.economia_mensal);
+                document.getElementById('payback').textContent = resultados.payback_anos.toFixed(1) + ' anos';
+                document.getElementById('economia-total').textContent = formatarMoeda(resultados.economia_total_25_anos);
+                
+                // Atualizar preços
+                document.getElementById('preco-a-vista').textContent = formatarMoeda(sistema.preco_a_vista);
+                document.getElementById('preco-parcelado').textContent = `ou ${sistema.preco_parcelado}`;
+                
+                // Mostrar informações do sistema
+                document.getElementById('sistema-info').innerHTML = `
+                    <h3 style="color: #2a5298; margin-bottom: 15px;">${sistema.potencia} kWp - ${sistema.descricao}</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                        <div>
+                            <strong>📦 Kit Completo:</strong><br>
+                            ${sistema.modulos} Módulos 620W<br>
+                            Inversor ${sistema.inversor}<br>
+                            Estrutura para Telhado
+                        </div>
+                        <div>
+                            <strong>⚡ Geração:</strong><br>
+                            Até ${sistema.geracao_mensal} kWh/mês<br><br>
+                            <strong>💳 Financiamento:</strong><br>
+                            Até 72 parcelas
+                        </div>
+                    </div>
+                  
+                `;
+                
+                // Preencher tabela de projeção
+                const projecaoBody = document.getElementById('projecao-body');
+                projecaoBody.innerHTML = '';
+                
+                data.resultados.projecao.forEach(proj => {
+                    if (proj.ano % 5 === 0 || proj.ano === 1 || proj.ano === 25) {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td><strong>${proj.ano}º ano</strong></td>
+                            <td>${formatarMoeda(proj.economia_anual)}</td>
+                            <td><strong>${formatarMoeda(proj.economia_acumulada)}</strong></td>
+                        `;
+                        projecaoBody.appendChild(row);
+                    }
+                });
+            }
+            
+            // Mostrar resultados
+            document.getElementById('results').style.display = 'block';
+            
+            // Rolagem suave para os resultados
+            document.getElementById('results').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+        
+        function abrirWhatsApp() {
+            const conta = document.getElementById('conta_mensal').value;
+            const sistemaElement = document.getElementById('sistema-info').querySelector('h3');
+            const sistemaTexto = sistemaElement ? sistemaElement.textContent : 'sistema solar';
+            const precoAVista = document.getElementById('preco-a-vista').textContent;
+            
+            // Verificar se é projeto personalizado (acima de 1500 kWh)
+            const resultadoProjetoPersonalizado = document.getElementById('resultado-projeto-personalizado');
+            const isProjetoPersonalizado = resultadoProjetoPersonalizado.style.display !== 'none';
+            
+            let mensagem;
+            
+            if (isProjetoPersonalizado) {
+                mensagem = `Olá *_Ápice Solar!_*  Vi a calculadora do *Esquenta Black Friday* e tenho interesse em um Sistema Fotovoltaico Personalizado. Minha conta de luz é em média R$ ${conta} e preciso de um projeto que me atenda. Podem me enviar mais informações?`;
+            } else {
+                mensagem = `Olá *_Ápice Solar!_*  Vi a calculadora do *Esquenta Black Friday* e quero garantir meu kit de ${sistemaTexto} por ${precoAVista}. Minha conta de luz é em média R$ ${conta}. Podem me enviar mais informações?`;
+            }
+            
+            const url = `https://wa.me/5522996055565?text=${encodeURIComponent(mensagem)}`;
+            window.open(url, '_blank');
+        }
+    </script>
+</body>
+</html>
